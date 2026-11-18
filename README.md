@@ -8,6 +8,15 @@ Open `index.html` in any modern browser — no build step or install needed. Bes
 
 To play online, enable GitHub Pages (Settings → Pages → Deploy from branch → `main` / root). The game will then be at `https://zach78841-cmyk.github.io/Abyss/`.
 
+## Install on your phone
+
+Once GitHub Pages is on, open the game link on your phone:
+
+- **iPhone (Safari):** Share button → **Add to Home Screen**
+- **Android (Chrome):** ⋮ menu → **Install app** / **Add to Home screen**
+
+It opens full-screen with its own icon and keeps working offline after the first load.
+
 ## Controls
 
 - **Mobile:** touch the left half to move · 斬 slash · 避 dodge · 技 skill

@@ -8,6 +8,10 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="theme-color" content="#07040c">
 <title>ABYSS</title>
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="icons/icon-180.png">
+<link rel="icon" type="image/png" href="icons/icon-192.png">
+<meta name="apple-mobile-web-app-title" content="ABYSS">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=DotGothic16&family=Pixelify+Sans:wght@400;600;700&family=Silkscreen:wght@400;700&family=Press+Start+2P&display=swap" rel="stylesheet">
@@ -2251,5 +2255,6 @@ window.__CR={get state(){return state},get player(){return player},get run(){ret
   teleportBoss(){return this.go('boss')},go(t){for(const r of run.rooms.values())if(r.type===t){enterRoom(r,null);return r}},goRoom(r){enterRoom(r,null)},hurt(){hurtPlayer(1,player.x+10,player.y)},get mus(){return{name:mus.name,step:mus.step,ac:AC&&AC.state,g:musG&&musG.gain.value}},allProjs(){return projs},get cmb(){return cmb},spawnShiny(t,i){const e=makeEnemy(t||'oni',player.x+40,player.y);e.shiny=i;enemies.push(e);announceShiny(e)},killAll(){for(const e of enemies)killEnemy(e);enemies.length=0;spawns.length=0}};
 })();
 </script>
+<script>if('serviceWorker' in navigator&&location.protocol==='https:')addEventListener('load',()=>navigator.serviceWorker.register('sw.js').catch(()=>{}));</script>
 </body>
 </html>
