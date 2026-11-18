@@ -384,7 +384,7 @@ body.kb .cbtn small{font-size:9px}
     <div class="arow"><span>Spawn shiny:</span><select id="aMon"></select><select id="aMonCol"></select><button class="ab sm" data-a="spawn">SPAWN</button></div>
     <div class="arow"><span>Give relic:</span><select id="aRelic"></select><button class="ab sm" data-a="relic">GIVE</button></div>
   </div>
-  <div id="aNoRun" style="font-size:11px;color:#8d7cb4;margin-top:8px">Open this from the pause menu (hold PAUSED for 10 seconds) during a run for floor, boss, spawn and relic controls.</div>
+  <div id="aNoRun" style="font-size:11px;color:#8d7cb4;margin-top:8px">Open this from the pause menu (triple-tap PAUSED) during a run for floor, boss, spawn and relic controls.</div>
   <div class="asec" style="color:#ff6a8a">DANGER</div>
   <div class="ag"><button class="ab" data-a="resetPlayer" id="aResetP" style="border-color:#ff8a3a;color:#ffd0b0">RESET PLAYER</button><button class="ab" data-a="reset" id="aReset" style="border-color:#ff3a5a;color:#ffb0c0">RESET ALL SAVE DATA</button></div>
   <div style="font-size:11px;color:#8d7cb4;margin-top:6px">Reset Player removes souls, weapons, blessings, shinies, skins and stats (and wipes your current run's relics). Your cheats and sound setting stay. Reset All Save Data wipes everything.</div>
@@ -2043,7 +2043,7 @@ function renderColl(){
 let adminFrom='mMain',adminGuard=0;
 $('mAdmin').addEventListener('click',e=>{if(performance.now()<adminGuard){e.stopPropagation();e.preventDefault()}},true);
 $('mAdmin').addEventListener('pointerdown',e=>{if(performance.now()<adminGuard&&e.target.tagName==='SELECT')e.preventDefault()},true);
-function onLongHold(el,ms,fn){let tm=null,sx=0,sy=0;const stop=()=>{clearTimeout(tm);tm=null};el.addEventListener('pointerdown',e=>{stop();sx=e.clientX;sy=e.clientY;try{el.setPointerCapture(e.pointerId)}catch(_){}tm=setTimeout(()=>{tm=null;fn()},ms)});el.addEventListener('pointermove',e=>{if(tm&&Math.hypot(e.clientX-sx,e.clientY-sy)>24)stop()});['pointerup','pointercancel','lostpointercapture'].forEach(t=>el.addEventListener(t,stop));el.addEventListener('contextmenu',e=>e.preventDefault())}
+function onTripleTap(el,fn){let n=0,lt=0;el.addEventListener('pointerup',()=>{const t=performance.now();n=t-lt<450?n+1:1;lt=t;if(n>=3){n=0;lt=0;fn()}})}
 function openAdmin(from){adminFrom=from;adminGuard=performance.now()+500;hide(from);audioInit();[523,784,1046].forEach((f,i)=>tone(f,.1,'square',.05,null,i*.05));renderAdmin();show('mAdmin')}
 function renderAdmin(){
   const inRun=state==='pause'&&run&&run.rooms&&player&&!player.dead;
@@ -2092,8 +2092,8 @@ for(const b of document.querySelectorAll('#mAdmin [data-a]'))b.addEventListener(
 for(const b of document.querySelectorAll('#mAdmin .tg'))b.addEventListener('click',()=>{sfx.ui();const k=b.dataset.t;save.admin[k]=!save.admin[k];adminDone(b.textContent.replace(/ · .*/,'')+(save.admin[k]?' ON':' OFF'))});
 $('aShinyMode').addEventListener('change',e=>{const v=e.target.value;save.admin.shiny=v===''?null:+v;adminDone('Shiny spawns: '+e.target.options[e.target.selectedIndex].text)});
 $('aClose').addEventListener('click',()=>{sfx.ui();hide('mAdmin');if(adminFrom==='mPause'&&state==='pause'){pauseGame.refresh&&pauseGame.refresh();show('mPause')}else{show('mMain');refreshMain()}});
-onLongHold($('tCursed'),10000,()=>{if(state==='menu'&&!$('mMain').classList.contains('hidden'))openAdmin('mMain')});
-onLongHold($('tPaused'),10000,()=>{if(state==='pause')openAdmin('mPause')});
+onTripleTap($('tCursed'),()=>{if(state==='menu'&&!$('mMain').classList.contains('hidden'))openAdmin('mMain')});
+onTripleTap($('tPaused'),()=>{if(state==='pause')openAdmin('mPause')});
 bind('shopLeave',()=>{hide('mShop');state='play';last=performance.now();toast('またね! "Come back anytime."',1.6)});
 bind('bAch',()=>{hide('mMain');renderAch();show('mAch')});bind('achBack',()=>{hide('mAch');show('mMain');refreshMain()});
 bind('bColl',()=>{hide('mMain');renderColl();show('mColl')});bind('collBack',()=>{hide('mColl');show('mMain');refreshMain()});
